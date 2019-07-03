@@ -7,3 +7,11 @@
 BCrypt-Wrapper is a small wrapper around Go's standard BCrypt-Implementation with the goal of increasing the cost-factor when its needed.
 To do this, everytime you use this wrapper when you verify its password, there is a check if the used cost-factor is not already to low.
 When the cost-factor is to low, the password will be hashed again with the focused cost-factor and returned.
+
+## Example Usage
+```go
+wrapper := NewBCryptWrapper(14) // Create a new BCrypt-Wrapper with cost factor 14
+someOutdatedHash := "$2y$11$KPR/tNhxP0RQcO7gSNjgJuXwu1jrwkfuEt2resN98faTtNnzq0DMa" // Hashed with cost-factor 14
+someMatchingPassword := "E&dWBjxaE*8V"
+newpass, err := wrapper.CompareHashAndPassword([]byte(someOutdatedHash), []byte(someMatchingPassword)) // Would return no error but the password hashed with cost-factor 14
+```
